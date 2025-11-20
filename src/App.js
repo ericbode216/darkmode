@@ -1,25 +1,83 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { ThemeProvider, useTheme } from "./ThemeContext";
+import Switch from "./Switch";
+
+const Title = ({ children }) => {
+  const { theme } = useTheme();
+  return (
+    <h2
+      style={{
+        color: theme === "light" ? "black" : "white",
+      }}
+    >
+      {children}
+    </h2>
+  );
+};
+
+const Paragraph = ({ children }) => {
+  const { theme } = useTheme();
+  return (
+    <p
+      style={{
+        color: theme === "light" ? "black" : "white",
+      }}
+    >
+      {children}
+    </p>
+  );
+};
+
+const Content = () => {
+  return (
+    <div>
+      <Paragraph>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </Paragraph>
+    </div>
+  );
+};
+
+const Header = () => {
+  const { theme, toggleTheme } = useTheme();
+  return (
+    <header>
+      <Title>Website </Title>
+      <Switch/>
+    </header>
+  );
+};
+
+const Page = () => {
+  return (
+    <div className="Page">
+      <Title>Paragraph Title</Title>
+      <Content />
+    </div>
+  );
+};
 
 function App() {
+  const { theme } = useTheme();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      className="App"
+      style={{
+        backgroundColor: theme === "light" ? "white" : "black",
+      }}
+    >
+      <Header />
+      <Page />
     </div>
   );
 }
 
-export default App;
+function Root() {
+  return (
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  );
+}
+
+export default Root;
